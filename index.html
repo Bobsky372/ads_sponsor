@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Custom IPP</title>
+  <style>
+    #custom-ipp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      background: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      padding: 15px;
+      cursor: pointer;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div id="custom-ipp" onclick="redirectAd()">
+    <h4>Iklan Menarik!</h4>
+    <p>Klik di sini untuk mendapatkan reward!</p>
+  </div>
+
+  <script>
+    // Daftar direct link kamu
+    const links = [
+      "https://directlink1.com",
+      "https://directlink2.com",
+      "https://directlink3.com"
+    ];
+
+    // Pilih salah satu random
+    const selectedLink = links[Math.floor(Math.random() * links.length)];
+
+    function redirectAd() {
+      const encoded = encodeURIComponent(selectedLink);
+      window.location.href = "redirect.html?link=" + encoded;
+    }
+  </script>
+</body>
+</html>
