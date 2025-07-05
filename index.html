@@ -1,43 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Custom IPP</title>
+  <title>Custom IPP CTR Booster</title>
   <style>
     #custom-ipp {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 300px;
+      width: 280px;
       background: #fff;
       border: 1px solid #ccc;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
       padding: 15px;
-      cursor: pointer;
+      border-radius: 10px;
       z-index: 9999;
+      font-family: sans-serif;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    #custom-ipp:hover {
+      background: #f5f5f5;
+      transform: scale(1.03);
+    }
+    .hidden-link {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div id="custom-ipp" onclick="redirectAd()">
-    <h4>Iklan Menarik!</h4>
-    <p>Klik di sini untuk mendapatkan reward!</p>
+
+  <h2>Selamat Datang di Halaman Reward</h2>
+  <p>Scroll ke bawah dan klik iklan melayang untuk mendapatkan reward.</p>
+
+  <div style="height: 1200px;"></div> <!-- biar bisa scroll -->
+
+  <!-- Iklan Melayang -->
+  <div id="custom-ipp">
+    <h4>🔥 Iklan Menarik</h4>
+    <p>Klik untuk mendapatkan reward!</p>
   </div>
 
+  <!-- Link tersembunyi ke redirect.html -->
+  <a id="real-link" class="hidden-link" href="#" target="_self" rel="noopener noreferrer">Go</a>
+
   <script>
-    // Daftar direct link kamu
+    const ipp = document.getElementById("custom-ipp");
+    const realLink = document.getElementById("real-link");
+
+    // Daftar link kamu
     const links = [
       "https://directlink1.com",
       "https://directlink2.com",
       "https://directlink3.com"
     ];
 
-    // Pilih salah satu random
+    // Pilih salah satu
     const selectedLink = links[Math.floor(Math.random() * links.length)];
+    const redirectURL = "redirect.html?link=" + encodeURIComponent(selectedLink);
 
-    function redirectAd() {
-      const encoded = encodeURIComponent(selectedLink);
-      window.location.href = "redirect.html?link=" + encoded;
-    }
+    // Simpan ke <a> href-nya
+    realLink.href = redirectURL;
+
+    // Gesture valid: scroll dulu, baru klik/mousedown = trigger klik
+    let userScrolled = false;
+    window.addEventListener("scroll", () => {
+      userScrolled = true;
+    });
+
+    ipp.addEventListener("mousedown", () => {
+      if (userScrolled) {
+        setTimeout(() => {
+          realLink.click(); // trigger klik asli
+        }, Math.floor(Math.random() * 400 + 200)); // delay acak (200–600ms)
+      } else {
+        alert("Silakan scroll halaman terlebih dahulu sebelum klik iklan.");
+      }
+    });
   </script>
 </body>
 </html>
